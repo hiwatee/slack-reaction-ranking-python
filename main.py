@@ -27,15 +27,18 @@ def main():
         data = r.json()
 
         # reactionを取得
-        for message in data['messages']:
-            try:
-                for reaction in message['reactions']:
-                    if not ranking[reaction['name']]:
-                        ranking[reaction['name']] = reaction['count']
-                    else:
-                        ranking[reaction['name']] += reaction['count']
-            except KeyError:
-                pass
+        try:
+            for message in data['messages']:
+                try:
+                    for reaction in message['reactions']:
+                        if reaction['name'] not in ranking:
+                            ranking[reaction['name']] = reaction['count']
+                        else:
+                            ranking[reaction['name']] += reaction['count']
+                except KeyError:
+                    pass
+        except KeyError:
+            pass
     # 並び替え
     ranking_sorted = sorted(
         ranking.items(), key=lambda x: x[1], reverse=True)
