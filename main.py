@@ -31,10 +31,8 @@ def main():
             for message in data['messages']:
                 try:
                     for reaction in message['reactions']:
-                        if reaction['name'] not in ranking:
-                            ranking[reaction['name']] = reaction['count']
-                        else:
-                            ranking[reaction['name']] += reaction['count']
+                        for user in reaction['users']:
+                            print(reaction['name'] + ':' + user)
                 except KeyError:
                     pass
         except KeyError:
